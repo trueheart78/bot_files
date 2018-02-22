@@ -1,0 +1,21 @@
+AllCops:
+  TargetRubyVersion: 2.2
+  Exclude:
+    - bot_files.gemspec
+    - files/**/*
+    - Guardfile
+    - vendor/**/*
+    - .bundle/**/*
+    - lib/tasks/**/*
+Documentation:
+  Enabled: false
+ClassAndModuleChildren:
+  Enabled: false
+Style/RaiseArgs:
+  EnforcedStyle: exploded
+Metrics/BlockLength:
+  ExcludedMethods: ['describe', 'context', 'shared_examples', 'shared_context', 'scenario']
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - spec/**/*

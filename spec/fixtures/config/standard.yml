@@ -1,0 +1,56 @@
+---
+:assignment_map:
+  -
+    :description: Aliases and functions for the shell(s)
+    :link_from: dotfiles
+    :link_to: .dotfiles
+  -
+    :description: Global gem configuration 
+    :link_from: gemrc.txt
+    :link_to: .gemrc
+  -
+    :description: Global .gitignore configuration 
+    :link_from: gitignore.txt
+    :link_to: .gitignore_global
+    :command: git config --global core.excludesfile LINK_PATH
+  -
+    :description: Global git configuration, auto-included by git
+    :link_from: gitconfig-include.txt
+    :link_to: .gitconfig-include
+  -
+    :description: Git shell configuration
+    :link_from: gitshrc.txt
+    :link_to: .gitshrc
+  -
+    :description: IRB configuration
+    :link_from: irbrc.txt
+    :link_to: .irbrc
+  -
+    :description: Pry configuration
+    :link_from: pryrc.txt
+    :link_to: .pryrc
+  -
+    :description: SQLite configuration
+    :link_from: sqliterc.txt
+    :link_to: .sqliterc
+  -
+    :description: Tmux configuration
+    :link_from: tmux.conf
+    :link_to: .tmux.conf
+  -
+    :description: Vim plugins directory
+    :link_from: vim
+    :link_to: .vim
+  -
+    :description: Vim configuration
+    :link_from: vimrc.txt
+    :link_to: .vimrc
+  -
+    :description: Vim bundle configuration
+    :link_from: vimrc.bundles.txt
+    :link_to: .vimrc.bundles
+  -
+    :description: Zsh th78 theme
+    :optional: true
+    :link_from: zsh_themes/th78.zsh-theme
+    :link_to: .oh-my-zsh/themes/th78.zsh-theme

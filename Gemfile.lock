@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    bot_files (0.1.0)
+    bot_files (1.0.0)
       colorize (~> 0.8)
 
 GEM
