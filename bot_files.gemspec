@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'bot_files'
   spec.version       = BotFiles::VERSION
   spec.authors       = ['Josh Mills']
-  spec.email         = ['jmills@covermymeds.com']
+  spec.email         = ['josh@trueheart78.com']
 
   spec.summary       = 'Simple dotfiles management.'
   spec.description   = 'Simple importing and exporting of your dotfiles in your own git repo.'
