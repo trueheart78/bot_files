@@ -16,7 +16,7 @@ RSpec.describe BotFiles::Config do
       allow(BotFiles).to receive(:home).with('.bot_files_config').and_return config_file
     end
 
-    context 'when the config file exists' do
+    context 'when the config file exists with a home directory path inside' do
       subject { instance.dotfile_path }
 
       it 'returns the expected value' do
@@ -24,6 +24,17 @@ RSpec.describe BotFiles::Config do
       end
 
       let(:config_file) { fixture_path 'config/valid.yaml' }
+    end
+
+    context 'when the config file exists with an alternative path inside' do
+      subject { instance.dotfile_path }
+
+      it 'returns the expected value' do
+        expect(subject).to eq dotfile_path
+      end
+
+      let(:dotfile_path) { '/alternative/path/to/dotfiles' }
+      let(:config_file)  { fixture_path 'config/alternative.yaml' }
     end
 
     context 'when the config files does not exist' do
