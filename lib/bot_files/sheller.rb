@@ -17,16 +17,25 @@ module BotFiles
     private
 
     def shell_file
-      return ['zsh', BotFiles.home('.zshrc')] if ENV['SHELL'].include? 'zsh'
-      return ['bash', BotFiles.home('.bashrc')] if ENV['SHELL'].include? 'bash'
+      return [:zsh, BotFiles.home('.zshrc')] if ENV['SHELL'].include? 'zsh'
+      return [:bash, BotFiles.home('.bashrc')] if ENV['SHELL'].include? 'bash'
       raise UnsupportedShellError
     end
 
     def sources(type)
-      sources = %w[zsh/config zsh/aliases zsh/functions] if type == 'zsh'
-      sources = %w[bash/config bash/aliases bash/functions] if type == 'bash'
-      sources.concat %w[shared/config shared/aliases shared/functions]
-      sources.map { |s| "source #{File.join(dotfile_path, s)}.sh\n" }
+      default_files(type).concat(shared_files).map { |s| source_command s }
+    end
+
+    def source_command(source)
+      "source #{File.join(dotfile_path, source)}.sh\n"
+    end
+
+    def shared_files
+      default_files 'shared'
+    end
+
+    def default_files(type)
+      %w[config aliases functions].map { |f| File.join type.to_s, f }
     end
 
     def dotfile_path
@@ -54,6 +63,8 @@ module BotFiles
         puts sources_to_add.join
         puts '-' * 60
         puts "Then reload your #{type} shell with 'source #{path}'"
+        # TODO: make an output option in the YAML file for when the script is run
+        #       and add this one to my own vim config
         puts 'Note: vim requires the :PlugInstall command to be run.'
       end
     end
