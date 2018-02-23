@@ -24,8 +24,7 @@ Or install it yourself as:
 
 * Scaffolds a dotfile repo together with a basic structure.
 * Utilizes a `~/.bot_files_config` to store a path to your dotfile repo.
-* Creates a `~/.dotfiles` that links to the specified dotfile repo.
-  * __Consider changing this to bot files?__
+* Creates a `~/.dotfiles` symlinked to the specified dotfile repo.
 * Creates a `.bot_files.yml` config in your dotfile repo.
 
 ### `bot_files init`
