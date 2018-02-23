@@ -2,6 +2,7 @@ module BotFiles
   class CLI < Thor
     # TODO: initialize a new dir with user input under git management (defaults to ~/dotfiles)
     #       and provide helpful details about syncing to a new repo
+    # TODO: don't forget about the new config.yml file location and a default version
     desc 'init', 'create a new local repo for your dotfiles'
     def init
       puts 'Init 🔥'.colorize(Theme.on_fire)
