@@ -1,6 +1,7 @@
 require 'yaml'
 require 'fileutils'
 require 'tmpdir'
+require 'colorize'
 require 'bot_files/version'
 require 'bot_files/link'
 require 'bot_files/linker'
