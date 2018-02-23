@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'bot_files'
+
+# TODO: initialize a new dir with user input under git management (defaults to ~/dotfiles)
+#       and provide helpful details about syncing to a new repo
+# TODO: scan for dotfiles (ignoring bash, zsh, and other shells) and offer import with y/n confirm
+# TODO: setup/verify everything is current
+puts 'WIP'
