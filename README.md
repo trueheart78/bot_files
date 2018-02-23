@@ -2,9 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/trueheart78/bot_files/tree/master.svg?style=svg)](https://circleci.com/gh/trueheart78/bot_files/tree/master)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bot_files`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A handy little bot of a gem to help you _simply_ manage your dotfiles. Requires Ruby v2.2 or greater.
 
 ## Installation
 
@@ -24,6 +22,40 @@ Or install it yourself as:
 
 ## Usage
 
+* Scaffolds a dotfile repo together with a basic structure.
+* Utilizes a `~/.bot_files_config` to store a path to your dotfile repo.
+* Creates a `~/.dotfiles` that links to the specified dotfile repo.
+  * __Consider changing this to bot files?__
+* Creates a `.bot_files.yml` config in your dotfile repo.
+
+### `bot_files init`
+
+Creates a new local repo for your dotfiles.
+
+TODO: Write usage instructions here
+
+### `bot_files import`
+
+Imports untracked dot files.
+
+TODO: Write usage instructions here
+
+### `bot_files scan`
+
+Scans for untracked dot files.
+
+TODO: Write usage instructions here
+
+### `bot_files audit`
+
+Audits the existing setup.
+
+TODO: Write usage instructions here
+
+### `bot_files install`
+
+Installs your dotfiles from the local repo
+
 TODO: Write usage instructions here
 
 ## Development
@@ -34,7 +66,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/bot_files. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/trueheart78/bot_files. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
