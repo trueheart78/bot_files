@@ -15,7 +15,7 @@ RSpec.describe BotFiles::CLI do
     subject { capture_output { described_class.new.init } }
 
     it 'outputs the expected content' do
-      is_expected.to eq 'Init 🔥'.colorize(:red) + "\n"
+      is_expected.to eq 'Init 🔥'.colorize(BotFiles::Theme.on_fire) + "\n"
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.describe BotFiles::CLI do
     subject { capture_output { described_class.new.import } }
 
     it 'outputs the expected content' do
-      is_expected.to eq 'Import 🔥'.colorize(:red) + "\n"
+      is_expected.to eq 'Import 🔥'.colorize(BotFiles::Theme.on_fire) + "\n"
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe BotFiles::CLI do
     subject { capture_output { described_class.new.audit } }
 
     it 'outputs the expected content' do
-      is_expected.to eq 'Audit 🔥'.colorize(:red) + "\n"
+      is_expected.to eq 'Audit 🔥'.colorize(BotFiles::Theme.on_fire) + "\n"
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe BotFiles::CLI do
     subject { capture_output { described_class.new.scan } }
 
     it 'outputs the expected content' do
-      is_expected.to eq 'Scan 🔥'.colorize(:red) + "\n"
+      is_expected.to eq 'Scan 🔥'.colorize(BotFiles::Theme.on_fire) + "\n"
     end
   end
 
@@ -47,7 +47,7 @@ RSpec.describe BotFiles::CLI do
     subject { capture_output { described_class.new.install } }
 
     it 'outputs the expected content' do
-      is_expected.to eq 'Install 🔥'.colorize(:red) + "\n"
+      is_expected.to eq 'Install 🔥'.colorize(BotFiles::Theme.on_fire) + "\n"
     end
   end
 end
