@@ -9,6 +9,7 @@ module BotFiles
       extend Forwardable
       def_delegators :instance, :dotfile_path
     end
+
     ConfigNotFound = Class.new StandardError
     MissingConfigValues = Class.new StandardError
 
