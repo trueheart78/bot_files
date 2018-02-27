@@ -8,6 +8,7 @@ require 'bot_files/theme'
 require 'bot_files/config'
 require 'bot_files/cli'
 require 'bot_files/link'
+require 'bot_files/shell'
 require 'bot_files/linker'
 require 'bot_files/sheller'
 

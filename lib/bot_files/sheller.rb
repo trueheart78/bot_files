@@ -1,26 +1,16 @@
 module BotFiles
   class Sheller
-    class ShellBackupError < StandardError; end
-    class ShellBackupUnmoveableError < StandardError; end
-    class UnsupportedShellError < StandardError; end
-
     def initialize(link_to_dotfile)
       @link_to_dotfile = link_to_dotfile
     end
 
     def update_shells
-      type, path = shell_file
-      shell_path = File.expand_path path
+      type = Shell.name
+      shell_path = Shell.path_name
       update_shell(type, shell_path) if File.exist? shell_path
     end
 
     private
-
-    def shell_file
-      return [:zsh, BotFiles.home('.zshrc')] if ENV['SHELL'].include? 'zsh'
-      return [:bash, BotFiles.home('.bashrc')] if ENV['SHELL'].include? 'bash'
-      raise UnsupportedShellError
-    end
 
     def sources(type)
       default_files(type).concat(shared_files).map { |s| source_command s }
