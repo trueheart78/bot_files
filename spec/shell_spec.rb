@@ -30,8 +30,8 @@ RSpec.describe BotFiles::Shell do
     end
   end
 
-  describe '.shell_path' do
-    subject { described_class.shell_path }
+  describe '.path' do
+    subject { described_class.path }
 
     context 'when zsh' do
       it 'returns the .zshrc path' do
@@ -58,5 +58,19 @@ RSpec.describe BotFiles::Shell do
     end
   end
 
-  let(:shell) { '/bin/zsh' }
+  describe '.exist?' do
+    subject { described_class.exist? }
+
+    context 'when the path exists' do
+      before { FileUtils.touch BotFiles.home('.zshrc') }
+
+      it { is_expected.to eq true }
+    end
+
+    context 'when the path does not exist' do
+      it { is_expected.to eq false }
+    end
+
+    let(:shell) { '/bin/zsh' }
+  end
 end

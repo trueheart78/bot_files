@@ -5,9 +5,7 @@ module BotFiles
     end
 
     def update_shells
-      type = Shell.name
-      shell_path = Shell.path_name
-      update_shell(type, shell_path) if File.exist? shell_path
+      update_shell(Shell.name, Shell.path) if Shell.exist?
     end
 
     private

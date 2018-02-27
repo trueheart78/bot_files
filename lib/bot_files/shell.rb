@@ -7,8 +7,12 @@ module BotFiles
         current_shell
       end
 
-      def shell_path
+      def path
         BotFiles.home current_profile
+      end
+
+      def exist?
+        File.exist? path
       end
 
       private
