@@ -74,8 +74,19 @@ module BotFiles
       end
     end
 
+    def shell_directory
+      {
+        description: 'Aliases and functions for the shell(s)',
+        link_from: 'shells',
+        link_to: '.dotfile_shells'
+      }
+    end
+
     def assignment_map
-      @assignment_map ||= YAML.load_file('config.yml')[:assignment_map]
+      return @assignment_map if @assignment_map
+      @assignment_map = YAML.load_file('config.yml')[:assignment_map]
+      @assignment_map.unshift shell_directory
+      @assignment_map
     end
   end
 end

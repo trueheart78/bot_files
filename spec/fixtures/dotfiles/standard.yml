@@ -1,10 +1,5 @@
 ---
 :assignment_map:
-  -
-    :description: Aliases and functions for the shell(s)
-    :link_from: dotfiles
-    :link_to: .dotfiles
-  -
     :description: Global gem configuration 
     :link_from: gemrc.txt
     :link_to: .gemrc

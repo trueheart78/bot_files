@@ -27,17 +27,15 @@ module BotFiles
     end
 
     def dotfile_path
-      return @dotfile_path if @dotfile_path
-      @dotfile_path = @link_to_dotfile.gsub(/#{BotFiles.home_path}/, '$HOME')
+      @dotfile_path ||= @link_to_dotfile.sub(/#{BotFiles.home_path}/, '$HOME')
     end
 
     def missing_sources(type, path)
       source_lines = sources type
       content = File.readlines path
-      missing_sources = source_lines.each_with_object([]) do |line, array|
+      source_lines.each_with_object([]) do |line, array|
         array << line unless content.include?(line)
       end
-      missing_sources
     end
 
     # rubocop:disable MethodLength
