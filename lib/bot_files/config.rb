@@ -1,9 +1,14 @@
 require 'singleton'
+require 'forwardable'
 
 module BotFiles
   class Config
     include Singleton
 
+    class << self
+      extend Forwardable
+      def_delegators :instance, :dotfile_path
+    end
     ConfigNotFound = Class.new StandardError
     MissingConfigValues = Class.new StandardError
 
