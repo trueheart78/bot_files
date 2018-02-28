@@ -157,23 +157,23 @@ RSpec.describe BotFiles::Link do
     end
   end
 
-  describe '#create' do
+  describe '#create!' do
     before do
       allow(subject).to receive(:creatable?).and_return creatable
     end
 
     context 'when createable' do
       it 'returns true' do
-        expect(subject.create).to eq true
+        expect(subject.create!).to eq true
       end
 
       it 'creates the symlink' do
-        subject.create
+        subject.create!
         expect(File.symlink?(subject.link_path)).to eq true
       end
 
       it 'does not have an error' do
-        subject.create
+        subject.create!
         expect(subject.error).to eq nil
       end
 
@@ -186,16 +186,16 @@ RSpec.describe BotFiles::Link do
       end
 
       it 'returns true' do
-        expect(subject.create).to eq true
+        expect(subject.create!).to eq true
       end
 
       it 'creates the symlink' do
-        subject.create
+        subject.create!
         expect(File.symlink?(subject.link_path)).to eq true
       end
 
       it 'does not have an error' do
-        subject.create
+        subject.create!
         expect(subject.error).to eq nil
       end
 
@@ -210,16 +210,16 @@ RSpec.describe BotFiles::Link do
       end
 
       it 'returns true' do
-        expect(subject.create).to eq true
+        expect(subject.create!).to eq true
       end
 
       it 'creates the symlink' do
-        subject.create
+        subject.create!
         expect(File.symlink?(subject.link_path)).to eq true
       end
 
       it 'does not have an error' do
-        subject.create
+        subject.create!
         expect(subject.error).to eq nil
       end
 
@@ -232,7 +232,7 @@ RSpec.describe BotFiles::Link do
       end
 
       it 'raises the expected error' do
-        expect { subject.create }.to raise_error Errno::ENOENT
+        expect { subject.create! }.to raise_error Errno::ENOENT
       end
 
       junklet :error_message
@@ -243,12 +243,12 @@ RSpec.describe BotFiles::Link do
       before { allow(Dir).to receive(:mkdir).and_return false }
 
       it 'removes the symlink' do
-        expect { subject.create }.to raise_error expected_error
+        expect { subject.create! }.to raise_error expected_error
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
       it 'removes the directory' do
-        expect { subject.create }.to raise_error expected_error
+        expect { subject.create! }.to raise_error expected_error
         expect(Dir.exist?(directory_path)).to eq false
       end
 
@@ -265,16 +265,16 @@ RSpec.describe BotFiles::Link do
 
       it 'raises the expected error' do
         expect(Kernel).to receive(:system).with(expected_command)
-        expect { subject.create }.to raise_error expected_error
+        expect { subject.create! }.to raise_error expected_error
       end
 
       it 'removes the symlink' do
-        expect { subject.create }.to raise_error expected_error
+        expect { subject.create! }.to raise_error expected_error
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
       it 'removes the directory' do
-        expect { subject.create }.to raise_error expected_error
+        expect { subject.create! }.to raise_error expected_error
         expect(Dir.exist?(directory_path)).to eq false
       end
 
@@ -288,16 +288,16 @@ RSpec.describe BotFiles::Link do
 
     context 'when not createable' do
       it 'returns false' do
-        expect(subject.create).to eq false
+        expect(subject.create!).to eq false
       end
 
       it 'does not create a symlink' do
-        subject.create
+        subject.create!
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
       it 'contains an error' do
-        subject.create
+        subject.create!
         expect(subject.error).to eq 'error'
       end
 
@@ -306,16 +306,16 @@ RSpec.describe BotFiles::Link do
 
     context 'when optional and not createable' do
       it 'returns false' do
-        expect(subject.create).to eq false
+        expect(subject.create!).to eq false
       end
 
       it 'does not create a symlink' do
-        subject.create
+        subject.create!
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
       it 'flags it as skipped' do
-        subject.create
+        subject.create!
         expect(subject.error).to eq 'skipped (optional)'
       end
 

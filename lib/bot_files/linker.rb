@@ -46,7 +46,7 @@ module BotFiles
         if link.dir?
           print 'skipped'
         elsif !link.current?
-          if link.create
+          if link.create!
             print 'linked'
           else
             print link.error

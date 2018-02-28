@@ -51,9 +51,9 @@ module BotFiles
       File.directory? File.dirname(link_path)
     end
 
-    def create
+    def create!
       if creatable?
-        create!
+        link!
         return true
       elsif optional?
         @error = 'skipped (optional)'
@@ -65,7 +65,7 @@ module BotFiles
 
     private
 
-    def create!
+    def link!
       symlink!
       create_directory! if directory
       execute_optional_command! if command
