@@ -4,13 +4,15 @@ module BotFiles
 
     class LinkNotCreatedError < StandardError; end
     class CommandNotExecutedError < StandardError; end
+    class DirectoryNotCreatedError < StandardError; end
 
-    def initialize(file, link, optional, command)
+    def initialize(file, link, optional: false, directory: nil, command: nil)
       @files = 'files'
       @file = file
       @link = link
       @optional = optional
       @command = command
+      @directory = directory
     end
 
     def link_path
@@ -51,8 +53,7 @@ module BotFiles
 
     def create
       if creatable?
-        symlink!
-        execute_optional_command! if command
+        create!
         return true
       elsif optional?
         @error = 'skipped (optional)'
@@ -63,6 +64,12 @@ module BotFiles
     end
 
     private
+
+    def create!
+      symlink!
+      create_directory! if directory
+      execute_optional_command! if command
+    end
 
     def symlink?
       File.symlink? link_path
@@ -80,15 +87,33 @@ module BotFiles
       @command.gsub 'LINK_PATH', link_path
     end
 
+    def directory
+      return unless @directory
+      BotFiles.home @directory
+    end
+
     def execute_optional_command!
       raise CommandNotExecutedError, "Error executing \"#{command}\"" unless Kernel.system command
     rescue CommandNotExecutedError
+      remove_symlink
+      remove_directory
+      raise
+    end
+
+    def create_directory!
+      return if Dir.exist? directory
+      raise DirectoryNotCreatedError, "Error creating \"#{directory}\"" unless Dir.mkdir directory
+    rescue DirectoryNotCreatedError
       remove_symlink
       raise
     end
 
     def remove_symlink
       File.unlink link_path if symlink?
+    end
+
+    def remove_directory
+      Dir.rmdir directory if directory && Dir.exist?(directory)
     end
   end
 end

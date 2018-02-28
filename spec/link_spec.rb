@@ -2,7 +2,13 @@ require 'spec_helper'
 
 RSpec.describe BotFiles::Link do
   include_context 'file management'
-  subject { described_class.new file, link, optional, command }
+  subject do
+    described_class.new file,
+                        link,
+                        optional: optional,
+                        directory: directory,
+                        command: command
+  end
 
   describe '#link_path' do
     it 'returns the link to the path' do
@@ -198,6 +204,28 @@ RSpec.describe BotFiles::Link do
       let(:creatable)        { true }
     end
 
+    context 'when creatable with an optional directory' do
+      before do
+        allow(Dir).to receive(:mkdir).with(directory).and_return true
+      end
+
+      it 'returns true' do
+        expect(subject.create).to eq true
+      end
+
+      it 'creates the symlink' do
+        subject.create
+        expect(File.symlink?(subject.link_path)).to eq true
+      end
+
+      it 'does not have an error' do
+        subject.create
+        expect(subject.error).to eq nil
+      end
+
+      let(:creatable) { true }
+    end
+
     context 'when creatable but symlinking fails' do
       before do
         allow(File).to receive(:symlink).and_raise Errno::ENOENT, error_message
@@ -211,6 +239,25 @@ RSpec.describe BotFiles::Link do
       let(:creatable) { true }
     end
 
+    context 'when creatable but the directory creation fails' do
+      before { allow(Dir).to receive(:mkdir).and_return false }
+
+      it 'removes the symlink' do
+        expect { subject.create }.to raise_error expected_error
+        expect(File.symlink?(subject.link_path)).to eq false
+      end
+
+      it 'removes the directory' do
+        expect { subject.create }.to raise_error expected_error
+        expect(Dir.exist?(directory_path)).to eq false
+      end
+
+      let(:directory)        { ".#{junk}" }
+      let(:directory_path)   { BotFiles.home ".#{junk}" }
+      let(:creatable)        { true }
+      let(:expected_error)   { described_class::DirectoryNotCreatedError }
+    end
+
     context 'when creatable but the command fails' do
       before do
         allow(Kernel).to receive(:system).with(expected_command).and_return false
@@ -221,8 +268,20 @@ RSpec.describe BotFiles::Link do
         expect { subject.create }.to raise_error expected_error
       end
 
+      it 'removes the symlink' do
+        expect { subject.create }.to raise_error expected_error
+        expect(File.symlink?(subject.link_path)).to eq false
+      end
+
+      it 'removes the directory' do
+        expect { subject.create }.to raise_error expected_error
+        expect(Dir.exist?(directory_path)).to eq false
+      end
+
       let(:expected_command) { command.gsub 'LINK_PATH', subject.link_path }
       let(:command)          { 'sample command with LINK_PATH' }
+      let(:directory)        { ".#{junk}" }
+      let(:directory_path)   { BotFiles.home ".#{junk}" }
       let(:creatable)        { true }
       let(:expected_error)   { described_class::CommandNotExecutedError }
     end
@@ -267,11 +326,11 @@ RSpec.describe BotFiles::Link do
 
   junklet :file, :link
 
-  let(:optional) { false }
-  let(:command)  { nil }
-  let(:t_command) do
-    'git config --global core.excludesfile LINK_PATH'
-  end
+  let(:optional)    { false }
+  let(:command)     { nil }
+  let(:directory)   { nil }
+  let(:t_command)   { 'git config --global core.excludesfile LINK_PATH' }
+  let(:t_directory) { '.hidden_dir' }
 
   def create_link(file_path, link_path)
     File.symlink file_path, link_path

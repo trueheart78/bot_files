@@ -70,7 +70,11 @@ module BotFiles
     def links
       return @links if @links
       @links = assignment_map.map do |f|
-        Link.new f[:link_from], f[:link_to], f.fetch(:optional, false), f.fetch(:command, nil)
+        Link.new f[:link_from],
+                 f[:link_to],
+                 optional: f.fetch(:optional, false),
+                 directory: f.fetch(:directory_to_create, nil),
+                 command: f.fetch(:post_install_command, nil)
       end
     end
 

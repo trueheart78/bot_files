@@ -8,7 +8,7 @@
     :description: Global .gitignore configuration 
     :link_from: gitignore.txt
     :link_to: .gitignore_global
-    :command: git config --global core.excludesfile LINK_PATH
+    :post_install_command: git config --global core.excludesfile LINK_PATH
   -
     :description: Global git configuration, auto-included by git
     :link_from: gitconfig-include.txt
@@ -41,6 +41,7 @@
     :description: Vim configuration
     :link_from: vimrc.txt
     :link_to: .vimrc
+    :directory_to_create: .vim_tmp
   -
     :description: Vim bundle configuration
     :link_from: vimrc.bundles.txt
