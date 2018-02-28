@@ -15,6 +15,11 @@ module BotFiles
         File.exist? path
       end
 
+      def sources
+        return [] unless exist?
+        File.readlines(path).select { |s| s.start_with? 'source ' }.map(&:chomp)
+      end
+
       private
 
       def current_profile

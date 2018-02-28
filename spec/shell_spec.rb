@@ -70,7 +70,55 @@ RSpec.describe BotFiles::Shell do
     context 'when the path does not exist' do
       it { is_expected.to eq false }
     end
-
-    let(:shell) { '/bin/zsh' }
   end
+
+  describe '.sources' do
+    subject { described_class.sources }
+
+    context 'when the path exists' do
+      before do
+        File.open(BotFiles.home('.zshrc'), 'w') do |f|
+          source_lines.each { |s| f.puts s }
+        end
+      end
+
+      context 'when source lines exist' do
+        it 'returns the expected collection' do
+          expect(subject).to eq expected_sources
+        end
+
+        let(:expected_sources) do
+          source_lines.select { |s| s.start_with? 'source ' }
+        end
+        let(:source_lines) do
+          [
+            "source #{junk}/#{junk}",
+            junk,
+            'sources="x"',
+            junk,
+            "source #{junk}/#{junk}",
+            'source_not_valid'
+          ]
+        end
+      end
+
+      context 'when source lines do not exist' do
+        it 'returns an empty collection' do
+          expect(subject).to eq []
+        end
+
+        let(:source_lines) do
+          [junk, '', junk, '']
+        end
+      end
+    end
+
+    context 'when the path does not exist' do
+      before { allow(described_class).to receive(:exist?).and_return false }
+
+      it { is_expected.to eq [] }
+    end
+  end
+
+  let(:shell) { '/bin/zsh' }
 end

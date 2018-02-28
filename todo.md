@@ -2,7 +2,8 @@
 
 1. ~~Properly detect the shell.~~
    * `BotFiles::Shell` class
-1. Read the shell and look at lines that start with "source".
+1. ~~Read the shell and look at lines that start with "source".~~
+   * `BotFiles::Shell.sources`
 1. Override the config support for a `.dotfiles` map to be required.
    * This would _currently_ happen as the first default assignment map in `Linker`.
    * Name should probably stay as `.dotfiles`, or be changed to `.dotfile_shells`.

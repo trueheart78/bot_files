@@ -1,14 +1,12 @@
 module BotFiles
   class Sources
+    attr_reader :missing
+
     def initialize
       @missing = []
     end
 
-    def missing
-      @missing
-    end
-
-    def missing?(link)
+    def missing?(_link)
       false
     end
 

@@ -1,5 +1,6 @@
 ---
 :assignment_map:
+  -
     :description: Global gem configuration 
     :link_from: gemrc.txt
     :link_to: .gemrc
