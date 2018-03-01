@@ -2,6 +2,9 @@ require 'spec_helper'
 
 RSpec.describe BotFiles::Link do
   include_context 'file management'
+  before do
+    allow(BotFiles::Config).to receive(:dotfile_path).and_return dotfile_path
+  end
   subject { described_class.new link_params }
 
   describe '#link_path' do
@@ -17,7 +20,7 @@ RSpec.describe BotFiles::Link do
       expect(subject.file_path).to eq expected_path
     end
 
-    let(:expected_path) { File.join Dir.pwd, 'files', file }
+    let(:expected_path) { File.join dotfile_path, file }
   end
 
   describe '#optional?' do
@@ -289,11 +292,12 @@ RSpec.describe BotFiles::Link do
   end
 
   junklet :file, :link
-  let(:optional)    { false }
-  let(:command)     { nil }
-  let(:directory)   { nil }
-  let(:t_command)   { 'git config --global core.excludesfile LINK_PATH' }
-  let(:t_directory) { '.hidden_dir' }
+  let(:optional)     { false }
+  let(:command)      { nil }
+  let(:directory)    { nil }
+  let(:t_command)    { 'git config --global core.excludesfile LINK_PATH' }
+  let(:t_directory)  { '.hidden_dir' }
+  let(:dotfile_path) { "/#{junk}/#{junk}" }
   let(:link_params) do
     {
       file: file,
