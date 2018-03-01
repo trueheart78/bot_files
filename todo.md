@@ -5,11 +5,14 @@
 1. ~~Read the shell and look at lines that start with "source".~~
    * `BotFiles::Shell.sources`
 1. Override the config support for a `.dotfiles` map to be required.
-   * This would _currently_ happen as the first default assignment map in `Linker`.
-   * Name should probably stay as `.dotfiles`, or be changed to `.dotfile_shells`.
-   * This is where things get sourced, though. So it would be pointing to the `dotfiles/shells` directory.
+   * ~~This would _currently_ happen as the first default assignment map in `Linker`.~~
+   * ~~Name should probably stay as `.dotfiles`, or be changed to `.dotfile_shells`.~~
+   * ~~This is where things get sourced, though. So it would be pointing to the `dotfiles/shells` directory.~~
    * Sources strings generated should definitely utilize this.
 1. Generator should create a repo with a `shells` directory, where the specific shell-related sources go.
+   * Should utilize something that knows about the structure already.
+   * Bonus `git init` with a potential `.gitignore`.
+   * `Kernel.system 'which git'` will show if it is available via `true` or `false`.
    * See [Sample Structure][sample-structure]
 
 ### Long-Term
