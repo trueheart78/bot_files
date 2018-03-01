@@ -1,12 +1,13 @@
 module BotFiles
   class Link
-    attr_reader :file, :link, :files, :error
+    attr_reader :file, :link, :files
 
     class LinkNotCreatedError < StandardError; end
+    class LinkSkippedError < StandardError; end
     class CommandNotExecutedError < StandardError; end
     class DirectoryNotCreatedError < StandardError; end
 
-    def initialize(file, link, optional: false, directory: nil, command: nil)
+    def initialize(file:, link:, optional: false, directory: nil, command: nil)
       @files = 'files'
       @file = file
       @link = link
@@ -54,13 +55,11 @@ module BotFiles
     def create!
       if creatable?
         link!
-        return true
       elsif optional?
-        @error = 'skipped (optional)'
+        raise LinkSkippedError, 'skipped (optional)'
       else
-        @error = 'error'
+        raise LinkNotCreatedError, 'error'
       end
-      false
     end
 
     private
@@ -77,9 +76,8 @@ module BotFiles
 
     def symlink!
       File.symlink file_path, link_path
-    rescue Errno::ENOENT => e
-      @error = :error
-      raise e
+    rescue Errno::ENOENT
+      raise LinkNotCreatedError, 'error creating symlink'
     end
 
     def command

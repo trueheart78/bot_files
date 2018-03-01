@@ -38,34 +38,41 @@ module BotFiles
     end
     # rubocop:enable MethodLength
 
-    # rubocop:disable MethodLength
     def create_symlinks
       links.each do |link|
-        print "Linking #{link.link_path}: "
-        if link.dir?
-          print 'skipped'
-        elsif !link.current?
-          if link.create!
-            print 'linked'
-          else
-            print link.error
-          end
-        else
-          print 'current'
-        end
-        print "\n"
+        puts "Linking #{link.link_path}: #{xxx(link)}"
       end
     end
-    # rubocop:enable MethodLength
+
+    def xxx(link)
+      return 'skipped' if link.dir?
+      return 'current' if link.current?
+      link.create!
+    rescue catchable_errors => error
+      error.message
+    end
+
+    def catchable_errors
+      [
+        Link::LinkNotCreatedError,
+        Link::LinkSkippedError,
+        Link::CommandNotExecutedError,
+        Link::DirectoryNotCreatedError
+      ]
+    end
 
     def links
-      @links ||= assignment_map.map do |f|
-        Link.new f[:link_from],
-                 f[:link_to],
-                 optional: f.fetch(:optional, false),
-                 directory: f.fetch(:directory_to_create, nil),
-                 command: f.fetch(:post_install_command, nil)
-      end
+      @links ||= assignment_map.map { |hash| Link.new link_params(hash) }
+    end
+
+    def link_params(hash)
+      {
+        file: hash[:link_from],
+        link: hash[:link_to],
+        optional: hash.fetch(:optional, false),
+        directory: hash.fetch(:directory_to_create, nil),
+        command: hash.fetch(:post_install_command, nil)
+      }
     end
 
     def shell_directory
