@@ -59,8 +59,7 @@ module BotFiles
     # rubocop:enable MethodLength
 
     def links
-      return @links if @links
-      @links = assignment_map.map do |f|
+      @links ||= assignment_map.map do |f|
         Link.new f[:link_from],
                  f[:link_to],
                  optional: f.fetch(:optional, false),
