@@ -1,14 +1,11 @@
 module BotFiles
   class Link
-    attr_reader :file, :link, :files
-
     class LinkNotCreatedError < StandardError; end
     class LinkSkippedError < StandardError; end
     class CommandNotExecutedError < StandardError; end
     class DirectoryNotCreatedError < StandardError; end
 
     def initialize(file:, link:, optional: false, directory: nil, command: nil)
-      @files = 'files'
       @file = file
       @link = link
       @optional = optional
@@ -21,7 +18,7 @@ module BotFiles
     end
 
     def file_path
-      File.join Dir.pwd, files, file
+      File.join BotFiles::Config.dotfile_path, file
     end
 
     def optional?
@@ -63,6 +60,8 @@ module BotFiles
     end
 
     private
+
+    attr_reader :file, :link
 
     def link!
       symlink!

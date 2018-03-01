@@ -3,6 +3,7 @@ require 'rspec/junklet'
 require 'support/simplecov'
 require 'bot_files'
 require 'byebug'
+require 'pry'
 
 %w[support contexts].each do |dirname|
   Dir[File.join(File.dirname(__FILE__), dirname, '**/*.rb')].each do |file|
