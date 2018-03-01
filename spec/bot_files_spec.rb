@@ -32,8 +32,8 @@ RSpec.describe BotFiles do
       let(:expected_path) { File.join home_directory, path }
     end
 
-    context 'when provided a path' do
-      it 'returns the stock home path' do
+    context 'when not provided a path' do
+      it 'returns the home path' do
         expect(subject).to eq home_directory
       end
 
