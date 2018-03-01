@@ -1,7 +1,6 @@
 module BotFiles
   class Linker
     def run
-      verify_tmp_dir
       audit_existing_symlinks
       create_symlinks
       update_shells
@@ -58,14 +57,6 @@ module BotFiles
       end
     end
     # rubocop:enable MethodLength
-
-    def verify_tmp_dir
-      Dir.mkdir(tmp_dir) unless Dir.exist?(tmp_dir)
-    end
-
-    def tmp_dir
-      BotFiles.home '.tmp'
-    end
 
     def links
       return @links if @links
