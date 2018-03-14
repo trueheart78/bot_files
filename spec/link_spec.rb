@@ -41,6 +41,52 @@ RSpec.describe BotFiles::Link do
     end
   end
 
+  describe '#system_type' do
+    context 'when not passed in' do
+      it 'returns nil' do
+        expect(subject.system_type).to eq nil
+      end
+    end
+
+    context 'when passed in' do
+      it 'returns the symbolized version' do
+        expect(subject.system_type).to eq :linux
+      end
+
+      let(:system_type) { 'Linux' }
+    end
+  end
+
+  describe '#matching_system?' do
+    context 'when no system type is passed in' do
+      it 'returns true' do
+        expect(subject).to be_a_matching_system
+      end
+    end
+
+    context 'when a system type is passed in' do
+      before { allow(OS).to receive(:linux?).and_return matching_system }
+
+      context 'when the system type matches' do
+        it 'returns true' do
+          expect(subject).to be_matching_system
+        end
+
+        let(:matching_system) { true }
+      end
+
+      context 'when the system type does not match' do
+        it 'returns false' do
+          expect(subject).not_to be_matching_system
+        end
+
+        let(:matching_system) { false }
+      end
+
+      let(:system_type) { 'Linux' }
+    end
+  end
+
   describe '#current?' do
     context 'when the link does not exist' do
       it 'returns false' do
@@ -292,19 +338,22 @@ RSpec.describe BotFiles::Link do
   end
 
   junklet :file, :link
-  let(:optional)     { false }
-  let(:command)      { nil }
-  let(:directory)    { nil }
-  let(:t_command)    { 'git config --global core.excludesfile LINK_PATH' }
-  let(:t_directory)  { '.hidden_dir' }
-  let(:dotfile_path) { "/#{junk}/#{junk}" }
+  let(:optional)      { false }
+  let(:command)       { nil }
+  let(:directory)     { nil }
+  let(:system_type)   { nil }
+  let(:t_command)     { 'git config --global core.excludesfile LINK_PATH' }
+  let(:t_directory)   { '.hidden_dir' }
+  let(:t_system_type) { 'Linux' }
+  let(:dotfile_path)  { "/#{junk}/#{junk}" }
   let(:link_params) do
     {
       file: file,
       link: link,
       optional: optional,
       directory: directory,
-      command: command
+      command: command,
+      system_type: system_type
     }
   end
 

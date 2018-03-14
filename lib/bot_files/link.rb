@@ -5,13 +5,16 @@ module BotFiles
     class CommandNotExecutedError < StandardError; end
     class DirectoryNotCreatedError < StandardError; end
 
-    def initialize(file:, link:, optional: false, directory: nil, command: nil)
+    # rubocop:disable ParameterLists
+    def initialize(file:, link:, optional: false, directory: nil, command: nil, system_type: nil)
       @file = file
       @link = link
       @optional = optional
-      @command = command
       @directory = directory
+      @command = command
+      @system_type = system_type
     end
+    # rubocop:enable ParameterLists
 
     def link_path
       BotFiles.home link
@@ -23,6 +26,16 @@ module BotFiles
 
     def optional?
       @optional
+    end
+
+    def system_type
+      return unless @system_type
+      @system_type.downcase.to_sym
+    end
+
+    def matching_system?
+      return true unless system_type
+      OS.send "#{system_type}?".to_sym
     end
 
     def current?
