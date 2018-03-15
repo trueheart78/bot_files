@@ -71,7 +71,8 @@ module BotFiles
         link: hash[:link_to],
         optional: hash.fetch(:optional, false),
         directory: hash.fetch(:directory_to_create, nil),
-        command: hash.fetch(:post_install_command, nil)
+        command: hash.fetch(:post_install_command, nil),
+        system_type: hash.fetch(:system_type, nil)
       }
     end
 

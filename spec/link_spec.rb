@@ -394,7 +394,7 @@ RSpec.describe BotFiles::Link do
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
-      let(:creatable) { false }
+      let(:creatable)      { false }
       let(:expected_error) { described_class::LinkNotCreatedError }
     end
 
@@ -404,8 +404,21 @@ RSpec.describe BotFiles::Link do
         expect(File.symlink?(subject.link_path)).to eq false
       end
 
-      let(:creatable) { false }
-      let(:optional)  { true }
+      let(:creatable)      { false }
+      let(:optional)       { true }
+      let(:expected_error) { described_class::LinkSkippedError }
+    end
+
+    context 'when not a matching system and not createable' do
+      before { allow(subject).to receive(:matching_system?).and_return false }
+
+      it 'raises an error and does not create a symlink' do
+        expect { subject.create! }.to raise_error expected_error
+        expect(File.symlink?(subject.link_path)).to eq false
+      end
+
+      let(:creatable)      { false }
+      let(:system_type)    { t_system_type }
       let(:expected_error) { described_class::LinkSkippedError }
     end
   end

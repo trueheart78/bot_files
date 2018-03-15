@@ -1,3 +1,4 @@
+# rubocop:disable ClassLength
 module BotFiles
   class Link
     class LinkNotCreatedError < StandardError; end
@@ -59,7 +60,7 @@ module BotFiles
     end
 
     def creatable?
-      ccc? && matching_system?
+      directory_exists? && matching_system?
     end
 
     def create!
@@ -67,6 +68,8 @@ module BotFiles
         link!
       elsif optional?
         raise LinkSkippedError, 'skipped (optional)'
+      elsif !matching_system?
+        raise LinkSkippedError, "skipped (#{system_type}-only)"
       else
         raise LinkNotCreatedError, 'error'
       end
@@ -76,7 +79,7 @@ module BotFiles
 
     attr_reader :file, :link
 
-    def ccc?
+    def directory_exists?
       File.directory? File.dirname(link_path)
     end
 
@@ -131,3 +134,4 @@ module BotFiles
     end
   end
 end
+# rubocop:enable ClassLength
