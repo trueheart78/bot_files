@@ -59,7 +59,7 @@ module BotFiles
     end
 
     def creatable?
-      File.directory? File.dirname(link_path)
+      ccc? && matching_system?
     end
 
     def create!
@@ -75,6 +75,10 @@ module BotFiles
     private
 
     attr_reader :file, :link
+
+    def ccc?
+      File.directory? File.dirname(link_path)
+    end
 
     def link!
       symlink!

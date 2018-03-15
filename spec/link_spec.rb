@@ -49,11 +49,29 @@ RSpec.describe BotFiles::Link do
     end
 
     context 'when passed in' do
-      it 'returns the symbolized version' do
-        expect(subject.system_type).to eq :linux
+      context 'when Mac' do
+        it 'returns the expected symbolized version' do
+          expect(subject.system_type).to eq :mac
+        end
+
+        let(:system_type) { 'Mac' }
       end
 
-      let(:system_type) { 'Linux' }
+      context 'when Linux' do
+        it 'returns the expected symbolized version' do
+          expect(subject.system_type).to eq :linux
+        end
+
+        let(:system_type) { 'Linux' }
+      end
+
+      context 'when Windows' do
+        it 'returns the expected symbolized version' do
+          expect(subject.system_type).to eq :windows
+        end
+
+        let(:system_type) { 'Windows' }
+      end
     end
   end
 
@@ -65,11 +83,52 @@ RSpec.describe BotFiles::Link do
     end
 
     context 'when a system type is passed in' do
-      before { allow(OS).to receive(:linux?).and_return matching_system }
+      before do
+        allow(OS).to receive(:mac?).and_return matching_system
+        allow(OS).to receive(:linux?).and_return matching_system
+        allow(OS).to receive(:windows?).and_return matching_system
+      end
 
       context 'when the system type matches' do
-        it 'returns true' do
-          expect(subject).to be_matching_system
+        context 'when Mac' do
+          it 'calls the correlating method' do
+            expect(OS).to receive(:mac?)
+            subject.matching_system?
+          end
+
+          it 'returns true' do
+            expect(subject).to be_matching_system
+          end
+
+          let(:system_type) { 'Mac' }
+        end
+
+        context 'when Linux' do
+          it 'calls the correlating method' do
+            expect(OS).to receive(:linux?)
+            subject.matching_system?
+          end
+
+          it 'returns true' do
+            expect(subject).to be_matching_system
+          end
+
+          let(:system_type) { 'Linux' }
+        end
+
+        context 'when Windows' do
+          it 'calls the correlating method' do
+            expect(OS).to receive(:windows?)
+            subject.matching_system?
+          end
+
+          it 'returns true' do
+            expect(subject).to be_matching_system
+          end
+
+          let(:system_type) { 'Mac' }
+
+          let(:system_type) { 'Windows' }
         end
 
         let(:matching_system) { true }
@@ -186,8 +245,22 @@ RSpec.describe BotFiles::Link do
 
   describe '#creatable?' do
     context 'when the directory for the link exists' do
-      it 'returns true' do
-        expect(subject).to be_creatable
+      before { allow(subject).to receive(:system_match?).and_return system_match }
+
+      context 'when the system type matches' do
+        it 'returns true' do
+          expect(subject).to be_creatable
+        end
+
+        let(:system_match) { true }
+      end
+
+      context 'when the system type does not match' do
+        it 'returns false' do
+          expect(subject).to be_creatable
+        end
+
+        let(:system_match) { false }
       end
     end
 
